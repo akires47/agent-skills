@@ -1,0 +1,133 @@
+﻿# ===================
+# System Files
+# ===================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+*.tmp
+*.temp
+*.bak
+
+# ===================
+# Editor/IDE
+# ===================
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.sublime-*
+
+# ===================
+# AI Tools
+# ===================
+.cursor/
+.claude/*
+!.claude/settings.json
+.aider*
+.github/copilot
+.copilot
+tmpclaude-*/
+.windsurf/
+
+# ===================
+# Testing
+# ===================
+playwright-report/
+playwright/.cache/
+.playwright-mcp/
+test-results/
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+*.lcov
+*.trx
+.nyc_output/
+
+# ===================
+# Dependencies
+# ===================
+node_modules/
+.pnpm-store/
+packages/
+*.nupkg
+*.snupkg
+.nuget/
+project.lock.json
+
+# ===================
+# Build Output
+# ===================
+dist/
+dist-ssr/
+build/
+bld/
+out/
+.output/
+.nuxt/
+.astro/
+.vite/
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+x64/
+x86/
+publish/
+PublishOutput/
+*.local
+
+# ===================
+# Cache
+# ===================
+.cache/
+*.cache
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+
+# ===================
+# Logs
+# ===================
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# ===================
+# Environment
+# ===================
+.env
+.env.*
+!.env.example
+appsettings.Production.json
+appsettings.Local.json
+
+# ===================
+# Certificates
+# ===================
+https/
+*.pfx
+*.pem
+*.crt
+*.key
+
+# ===================
+# Cloudflare/Hosting
+# ===================
+.wrangler/
+.vercel/
+.netlify/
+
+# ===================
+# Solution Files (.NET)
+# ===================
+*.userosscache
+*.sln.docstates
