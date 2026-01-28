@@ -71,6 +71,48 @@ public static class GetProducts
 }
 ```
 
+## Create
+
+```csharp
+// Features/Products/CreateProduct.cs
+public static class CreateProduct
+{
+    public sealed record Request(string Name, decimal Price, string Category);
+    public sealed record Response(int Id, string Name, decimal Price, string Category);
+
+    public static async Task<Result<Response>> HandleAsync(
+        Request request, AppDbContext db, CancellationToken ct)
+    {
+        var validation = Validate(request);
+        if (!validation.IsValid)
+            return validation.ToResult<Response>(null!);
+
+        var product = ToEntity(request);
+        db.Products.Add(product);
+        await db.SaveChangesAsync(ct);
+
+        return ToResponse(product);
+    }
+
+    private static ValidationResult Validate(Request request) =>
+        ValidationExtensions.Validate()
+            .NotEmpty(request.Name, "Name")
+            .GreaterThan(request.Price, 0, "Price");
+
+    private static Product ToEntity(Request request) =>
+        new() { Name = request.Name, Price = request.Price, Category = request.Category };
+
+    private static Response ToResponse(Product product) =>
+        new(product.Id, product.Name, product.Price, product.Category);
+
+    public static void MapEndpoint(IEndpointRouteBuilder app) => app
+        .MapPost("/api/products", async (Request request, AppDbContext db, CancellationToken ct) =>
+            (await HandleAsync(request, db, ct)).ToCreatedResponse(r => $"/api/products/{r.Id}"))
+        .WithName("CreateProduct")
+        .WithTags("Products");
+}
+```
+
 ## Update
 
 ```csharp
@@ -88,23 +130,30 @@ public static class UpdateProduct
             return validation.ToResult<Response>(null!);
 
         var product = await db.Products.FirstOrDefaultAsync(p => p.Id == id, ct);
-        
+
         if (product is null)
             return Result.Failure<Response>(Error.NotFound("Product", id));
 
-        product.Name = request.Name;
-        product.Price = request.Price;
-        product.Category = request.Category;
-
+        UpdateEntity(product, request);
         await db.SaveChangesAsync(ct);
 
-        return new Response(product.Id, product.Name, product.Price, product.Category);
+        return ToResponse(product);
     }
 
     private static ValidationResult Validate(Request request) =>
         ValidationExtensions.Validate()
             .NotEmpty(request.Name, "Name")
             .GreaterThan(request.Price, 0, "Price");
+
+    private static void UpdateEntity(Product product, Request request)
+    {
+        product.Name = request.Name;
+        product.Price = request.Price;
+        product.Category = request.Category;
+    }
+
+    private static Response ToResponse(Product product) =>
+        new(product.Id, product.Name, product.Price, product.Category);
 
     public static void MapEndpoint(IEndpointRouteBuilder app) => app
         .MapPut("/api/products/{id:int}", async (int id, Request request, AppDbContext db, CancellationToken ct) =>
@@ -136,27 +185,6 @@ public static class DeleteProduct
             (await HandleAsync(id, db, ct)).ToResponse())
         .WithName("DeleteProduct")
         .WithTags("Products");
-}
-```
-
-## Manual Mapper
-
-```csharp
-// Features/Products/ProductMapper.cs
-public static class ProductMapper
-{
-    public static GetProducts.ProductDto ToDto(this Product product) =>
-        new(product.Id, product.Name, product.Price, product.Category);
-
-    public static Product ToEntity(this CreateProduct.Request request) =>
-        new() { Name = request.Name, Price = request.Price, Category = request.Category };
-
-    public static void UpdateFrom(this Product product, UpdateProduct.Request request)
-    {
-        product.Name = request.Name;
-        product.Price = request.Price;
-        product.Category = request.Category;
-    }
 }
 ```
 

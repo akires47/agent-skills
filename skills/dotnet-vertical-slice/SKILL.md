@@ -15,7 +15,7 @@ src/
 │   ├── Products/
 │   │   ├── GetProduct.cs
 │   │   ├── CreateProduct.cs
-│   │   └── ProductMapper.cs
+│   │   └── UpdateProduct.cs
 │   └── Orders/
 │       └── ...
 ├── Shared/
@@ -46,17 +46,23 @@ public static class CreateProduct
         if (!validation.IsValid)
             return validation.ToResult<Response>(null!);
 
-        var product = new Product { Name = request.Name, Price = request.Price };
+        var product = ToEntity(request);
         db.Products.Add(product);
         await db.SaveChangesAsync(ct);
 
-        return new Response(product.Id, product.Name, product.Price);
+        return ToResponse(product);
     }
 
     private static ValidationResult Validate(Request request) =>
         ValidationExtensions.Validate()
             .NotEmpty(request.Name, "Name")
             .GreaterThan(request.Price, 0, "Price");
+
+    private static Product ToEntity(Request request) =>
+        new() { Name = request.Name, Price = request.Price };
+
+    private static Response ToResponse(Product product) =>
+        new(product.Id, product.Name, product.Price);
 
     public static void MapEndpoint(IEndpointRouteBuilder app) => app
         .MapPost("/api/products", async (Request request, AppDbContext db, CancellationToken ct) =>
@@ -71,7 +77,7 @@ public static class CreateProduct
 1. **Result pattern only** - Never throw exceptions, return `Result<T>` or `Result`
 2. **Static handlers** - Use `public static async Task<Result<T>> HandleAsync(...)`
 3. **Inline validation** - Validate at handler start, return early on failure
-4. **Manual mapping** - Use extension methods in `*Mapper.cs` files
+4. **Inline mapping** - Use private `ToEntity()` or `ToResponse()` methods within each feature
 5. **Projections** - Use `.Select()` for queries, avoid loading full entities
 
 ## References
