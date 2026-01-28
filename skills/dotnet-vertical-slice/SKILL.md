@@ -1,6 +1,6 @@
 ---
 name: dotnet-vertical-slice
-description: .NET 10 web APIs using vertical slice architecture with minimal APIs. Use when building APIs organized by feature rather than technical layers, with Result pattern for error handling. No MediatR, no AutoMapper.
+description: Create minimal APIs using vertical slice architecture. Use it when building APIs organized by feature rather than technical layers, with result pattern for error handling, and fluent validation pattern. No external packages required.
 ---
 
 # .NET 10 Vertical Slice Architecture
