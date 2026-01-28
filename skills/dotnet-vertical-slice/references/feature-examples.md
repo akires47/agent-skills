@@ -194,16 +194,20 @@ public static class DeleteProduct
 // Shared/Extensions/EndpointExtensions.cs
 public static class EndpointExtensions
 {
+    private const BindingFlags Flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
+    private const string FeaturesNamespace = ".Features";
+
     public static IEndpointRouteBuilder MapFeatureEndpoints(this IEndpointRouteBuilder app)
     {
-        var endpointTypes = Assembly.GetExecutingAssembly()
+        var endpointMethods = Assembly.GetExecutingAssembly()
             .GetTypes()
-            .Where(t => t.GetMethod("MapEndpoint", BindingFlags.Public | BindingFlags.Static) is not null);
+            .Where(t => t.Namespace?.Contains(FeaturesNamespace) == true)
+            .Select(t => t.GetMethod("MapEndpoint", Flags))
+            .Where(m => m is not null);
 
-        foreach (var type in endpointTypes)
+        foreach (var method in endpointMethods)
         {
-            var mapMethod = type.GetMethod("MapEndpoint", BindingFlags.Public | BindingFlags.Static);
-            mapMethod?.Invoke(null, [app]);
+            method!.Invoke(null, [app]);
         }
 
         return app;
