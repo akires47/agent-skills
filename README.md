@@ -8,13 +8,37 @@ Skills are markdown files that agents can load to enhance its capabilities when 
 
 ## Available Skills
 
-| Skill                   | Description                                                                       |
-| ----------------------- | --------------------------------------------------------------------------------- |
-| `dotnet-vertical-slice` | .NET 10 development using vertical slice (feature) architecture with minimal APIs |
+| Skill                    | Description                                                                                                                                                                           | Rules |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| `dotnet-best-practices`  | Comprehensive .NET development guidelines covering error handling, async patterns, type design, database performance, API design, DI, architecture, serialization, performance, logging, and testing | 94    |
+
+## Skill Structure
+
+The `dotnet-best-practices` skill is organized into 11 priority-ranked categories:
+
+1. **Error Handling** (CRITICAL) - Result pattern, validation, guard clauses
+2. **Async Patterns** (CRITICAL) - CancellationToken, ValueTask, IAsyncEnumerable
+3. **Type Design** (HIGH) - Records, immutability, pattern matching
+4. **Database Performance** (HIGH) - NoTracking, projections, avoiding N+1
+5. **API Design** (MEDIUM-HIGH) - Abstractions, return types, readonly collections
+6. **Dependency Injection** (MEDIUM) - Extension methods, Options pattern
+7. **Architecture** (MEDIUM) - Vertical slices, static handlers, minimal APIs
+8. **Serialization** (MEDIUM) - System.Text.Json, Protobuf, wire compatibility
+9. **Performance** (LOW-MEDIUM) - Span<T>, frozen collections, string handling
+10. **Logging** (LOW-MEDIUM) - Structured logging, correlation IDs
+11. **Testing** (LOW) - TestContainers, snapshot testing, AAA pattern
+
+Each rule includes:
+- Clear explanation of why it matters
+- ❌ Incorrect code example
+- ✅ Correct code example  
+- Context and cross-references
 
 ## Acknowledgments
 
-Some skills in this collection were originally inspired by [Aaronontheweb/dotnet-skills](https://github.com/Aaronontheweb/dotnet-skills) but have been renamed, refactored, and split into more focused, approach-specific skills.
+This collection was inspired by:
+- [Aaronontheweb/dotnet-skills](https://github.com/Aaronontheweb/dotnet-skills) - Original .NET skills concept
+- [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) - Rules-based skill format
 
 ## Skill Format
 
