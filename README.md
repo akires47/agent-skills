@@ -6,6 +6,16 @@ A collection of agent skills that provide specialized knowledge and patterns for
 
 Skills are markdown files that agents can load to enhance its capabilities when working on particular types of projects. Each skill contains patterns, code examples, and guidelines for a specific technology or architecture.
 
+## Installation
+
+Install skills using [skills.sh](https://skills.sh):
+
+```bash
+npx skills add akires47/agent-skills --skill dotnet-best-practices
+```
+
+Or reference directly in your agent configuration.
+
 ## Available Skills
 
 | Skill                    | Description                                                                                                                                                                           | Rules |
