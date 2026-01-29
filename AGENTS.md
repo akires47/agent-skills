@@ -7,13 +7,14 @@ This repository contains a collection of reusable agent skills (knowledge module
 ```
 akires47-agent-skills/
 ├── skills/
-│   ├── dotnet-vertical-slice/          # Vertical slice architecture with minimal APIs
-│   ├── dotnet-csharp-coding-standards/ # Modern C# patterns and best practices
-│   ├── dotnet-testcontainers-integration-tests/ # Integration testing with TestContainers
-│   ├── dotnet-efcore-patterns/         # Entity Framework Core patterns
-│   ├── dotnet-dependency-injection-patterns/ # DI patterns and lifetime management
-│   ├── dotnet-extensions-configuration/ # Options pattern and configuration
-│   └── [other skills]/
+│   └── dotnet-best-practices/          # Comprehensive .NET development guidelines
+│       ├── SKILL.md                    # Categorized index with quick reference
+│       ├── AGENTS.md                   # Full compiled guide for LLM context
+│       └── rules/                      # 94 individual rule files
+│           ├── error-result-pattern.md
+│           ├── async-cancellation-token.md
+│           ├── db-notracking-default.md
+│           └── ...
 ├── README.md
 └── AGENTS.md (this file)
 ```
@@ -22,9 +23,10 @@ akires47-agent-skills/
 
 ### Skill File Structure
 
-Each skill directory contains:
-- `SKILL.md` - Main skill documentation with patterns and quick reference
-- `references/` - Detailed reference documentation for specific topics
+The `dotnet-best-practices` skill contains:
+- `SKILL.md` - Categorized index with quick reference for all 94 rules
+- `AGENTS.md` - Full compiled guide with all rules expanded inline
+- `rules/` - Individual rule files (one per rule)
 
 ### Skill Format
 
@@ -50,10 +52,11 @@ This is a **documentation-only repository** with no code to build, test, or lint
 ### Editing Skills
 
 When modifying skill files:
-1. Maintain the YAML frontmatter structure
+1. Maintain the YAML frontmatter structure in SKILL.md
 2. Keep code examples accurate and up-to-date
 3. Follow markdown formatting conventions
-4. Update reference files in the `references/` subdirectory as needed
+4. Update individual rule files in the `rules/` directory
+5. Each rule file should follow the format: title, "Why It Matters", ❌ Incorrect, ✅ Correct, Context
 
 ### Validation
 
@@ -177,8 +180,8 @@ public sealed class CreditCardProcessor : IPaymentProcessor
 
 ### Naming Conventions
 
-- **Files**: Use kebab-case (e.g., `result-pattern.md`, `error-handling.md`)
-- **Directories**: Use kebab-case (e.g., `dotnet-vertical-slice`, `references`)
+- **Rule Files**: Use kebab-case with category prefix (e.g., `error-result-pattern.md`, `async-cancellation-token.md`)
+- **Directories**: Use kebab-case (e.g., `dotnet-best-practices`, `rules`)
 - **C# Code**: Follow standard .NET conventions (PascalCase for types/methods, camelCase for parameters)
 
 ### Error Handling in Examples
@@ -195,17 +198,36 @@ throw new InvalidOperationException("Critical system failure");
 
 ## Contribution Guidelines
 
-When adding or modifying skills:
+When adding or modifying rules:
 
-1. **Create focused skills** - Each skill should address a specific technology or pattern
+1. **One rule per file** - Each rule gets its own markdown file in `rules/`
 2. **Include practical examples** - Show real-world code, not contrived demos
-3. **Provide references** - Break complex topics into separate reference files
-4. **Follow existing structure** - Match the format of existing skills
-5. **Update README.md** - Add new skills to the table in README.md
-6. **Use frontmatter** - Always include valid YAML frontmatter with name and description
+3. **Follow the template** - Use ❌ Incorrect and ✅ Correct sections
+4. **Cross-reference** - Link related rules in the Context section
+5. **Update SKILL.md** - Add new rules to the categorized index
+6. **Maintain priority** - Place rules in appropriate priority category (CRITICAL, HIGH, MEDIUM, LOW)
+
+## Rule Categories
+
+The `dotnet-best-practices` skill organizes 94 rules into 11 priority-ranked categories:
+
+| Priority | Category | Impact | Prefix | Rules |
+|----------|----------|--------|--------|-------|
+| 1 | Error Handling | CRITICAL | `error-` | 8 |
+| 2 | Async Patterns | CRITICAL | `async-` | 9 |
+| 3 | Type Design | HIGH | `type-` | 10 |
+| 4 | Database Performance | HIGH | `db-` | 12 |
+| 5 | API Design | MEDIUM-HIGH | `api-` | 8 |
+| 6 | Dependency Injection | MEDIUM | `di-` | 7 |
+| 7 | Architecture | MEDIUM | `arch-` | 8 |
+| 8 | Serialization | MEDIUM | `serial-` | 6 |
+| 9 | Performance | LOW-MEDIUM | `perf-` | 12 |
+| 10 | Logging | LOW-MEDIUM | `log-` | 6 |
+| 11 | Testing | LOW | `test-` | 8 |
 
 ## Resources
 
 - Repository: https://github.com/akires47/akires47-agent-skills
 - Inspired by: https://github.com/Aaronontheweb/dotnet-skills
+- Format based on: https://github.com/vercel-labs/agent-skills
 - .NET Documentation: https://learn.microsoft.com/en-us/dotnet/
