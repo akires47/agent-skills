@@ -12,6 +12,10 @@ Skills are markdown files that agents can load to enhance its capabilities when 
 | ----------------------- | --------------------------------------------------------------------------------- |
 | `dotnet-vertical-slice` | .NET 10 development using vertical slice (feature) architecture with minimal APIs |
 
+## Acknowledgments
+
+Some skills in this collection were originally inspired by [Aaronontheweb/dotnet-skills](https://github.com/Aaronontheweb/dotnet-skills) but have been renamed, refactored, and split into more focused, approach-specific skills.
+
 ## Skill Format
 
 Each skill file in `skills/` follows this structure:
